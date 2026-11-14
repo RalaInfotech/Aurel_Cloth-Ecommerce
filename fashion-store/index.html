@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AUREL is a luxury clothing atelier. Shop tailored blazers, dresses, outerwear, and everyday essentials.">
+  <meta name="theme-color" content="#171614">
+  <meta name="robots" content="noindex">
+  <title>AUREL — Atelier Clothing</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=2000&q=80">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <noscript><p class="noscript">AUREL needs JavaScript to load the collection, cart, and wishlist.</p></noscript>
+  <header class="site-header" id="siteHeader">
+    <div class="announce"><p>Free shipping over ₹5,000 · 14-day returns</p></div>
+    <div class="nav-bar">
+      <div class="nav-bar-inner wrap">
+        <div class="nav-left">
+          <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+          <a class="logo" href="index.html" aria-label="AUREL home"><span class="logo-mark">AUREL</span><span class="logo-sub">Atelier</span></a>
+        </div>
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="index.html" data-nav="home">Home</a>
+          <a href="shop.html" data-nav="shop">Shop</a>
+          <a href="shop.html?gender=Men" data-nav="men">Men</a>
+          <a href="shop.html?gender=Women" data-nav="women">Women</a>
+          <a href="shop.html?collection=new" data-nav="new">New Arrivals</a>
+          <a href="shop.html?collection=featured" data-nav="collections">Collections</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-btn" id="searchOpen" type="button" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button>
+          <a class="icon-btn" href="wishlist.html" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19s-7-4.4-7-8.5C5 8 6.8 6.5 8.8 6.5c1.2 0 2.2.6 3.2 1.8 1-1.2 2-1.8 3.2-1.8 2 0 3.8 1.5 3.8 4C19 14.6 12 19 12 19z"/></svg><span class="count" id="wishCount" hidden>0</span></a>
+          <button class="icon-btn" id="cartOpen" type="button" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6.5 8h11l-1 12h-9l-1-12z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="count" id="cartCount" hidden>0</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <nav aria-label="Mobile">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="shop.html" data-nav="shop">Shop</a>
+        <a href="shop.html?gender=Men" data-nav="men">Men</a>
+        <a href="shop.html?gender=Women" data-nav="women">Women</a>
+        <a href="shop.html?collection=new" data-nav="new">New Arrivals</a>
+        <a href="shop.html?collection=featured" data-nav="collections">Collections</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-copy">
+        <p class="eyebrow rise">Winter 2026</p>
+        <h1 class="rise">The modern wardrobe, <em>edited.</em></h1>
+        <p class="lede rise">Tailoring, knitwear, and everyday pieces in cloth we would wear ourselves. Fewer things, finished properly.</p>
+        <div class="btn-row rise">
+          <a class="btn btn-white" href="shop.html?collection=new">Shop new arrivals</a>
+          <a class="btn btn-line" href="shop.html?gender=Women">Shop women</a>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true"><span></span></div>
+    </section>
+
+    <div class="trust">
+      <ul class="wrap">
+        <li>Complimentary shipping over ₹5,000</li>
+        <li>14-day returns</li>
+        <li>Cut in small runs</li>
+        <li>Thoughtful packaging</li>
+      </ul>
+    </div>
+
+    <section class="section" id="collections">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Edit</p>
+            <h2>Featured collections</h2>
+          </div>
+        </div>
+        <div class="collection-grid">
+          <a class="collection-tile reveal" href="shop.html?gender=Women">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80" alt="" referrerpolicy="no-referrer">
+            <span class="tile-copy"><span class="eyebrow">01 — Women</span><span class="tile-title">The women’s atelier</span></span>
+          </a>
+          <a class="collection-tile reveal" href="shop.html?gender=Men">
+            <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=1200&q=80" alt="" referrerpolicy="no-referrer">
+            <span class="tile-copy"><span class="eyebrow">02 — Men</span><span class="tile-title">The men’s atelier</span></span>
+          </a>
+          <a class="collection-tile reveal" href="shop.html?collection=new">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="" referrerpolicy="no-referrer">
+            <span class="tile-copy"><span class="eyebrow">03 — Just in</span><span class="tile-title">New arrivals</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="new" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Just arrived</p>
+            <h2>New arrivals</h2>
+          </div>
+          <a class="text-link" href="shop.html?collection=new">View all</a>
+        </div>
+        <div class="product-grid" id="newGrid" aria-busy="true">
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="trending" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Most loved</p>
+            <h2>Trending now</h2>
+          </div>
+          <a class="text-link" href="shop.html">Shop all</a>
+        </div>
+        <div class="product-grid" id="trendingGrid" aria-busy="true">
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+          <article class="skeleton-card" aria-hidden="true"><div class="skeleton sk-img"></div><div class="skeleton sk-line"></div><div class="skeleton sk-line short"></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="promo reveal" aria-label="Promotional banner">
+      <div class="promo-media">
+        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1600&q=80" alt="Camel wool coat from the seasonal tailoring edit" referrerpolicy="no-referrer">
+      </div>
+      <div class="promo-copy">
+        <p class="eyebrow">Limited</p>
+        <h2>The tailoring edit</h2>
+        <p class="muted">Selected blazers and jackets, marked down while the cloth lasts.</p>
+        <a class="btn btn-solid" href="shop.html?category=Blazers,Jackets">Shop the edit</a>
+      </div>
+    </section>
+
+    <section class="section" id="story">
+      <div class="wrap story reveal">
+        <div class="story-media">
+          <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1400&q=80" alt="Folded tailoring and shirting in the AUREL atelier" referrerpolicy="no-referrer">
+        </div>
+        <div class="story-copy">
+          <p class="eyebrow">The house</p>
+          <h2>Made slowly, worn often.</h2>
+          <p class="story-quote">Fewer pieces. Better cloth. A wardrobe that can actually be finished.</p>
+          <p class="muted">AUREL is a clothing house for people who buy less and expect more. We work with mills that still finish a shoulder by hand, and we edit each season down to the pieces we would keep ourselves.</p>
+          <a class="btn btn-solid" href="shop.html?collection=featured">Shop the collection</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials" style="padding-top:0">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="eyebrow">Clients</p>
+            <h2>In their words</h2>
+          </div>
+        </div>
+        <div class="quotes">
+          <figure class="quote reveal">
+            <p>“The blazer is the best tailored piece I own. Quiet, exact, and it gets better with wear.”</p>
+            <footer>Meera S. · Mumbai</footer>
+          </figure>
+          <figure class="quote reveal">
+            <p>“Cloth, fit, and the way it arrives. AUREL has become the uniform I actually wanted.”</p>
+            <footer>Arjun M. · Bengaluru</footer>
+          </figure>
+          <figure class="quote reveal">
+            <p>“I wore the silk dress to dinner. It looked considered, not costumed. I’ll have it for years.”</p>
+            <footer>Leela K. · Delhi</footer>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="recentSection" hidden>
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Your history</p>
+            <h2>Recently viewed</h2>
+          </div>
+        </div>
+        <div class="product-grid" id="recentGrid"></div>
+      </div>
+    </section>
+
+    <section class="section newsletter" id="newsletter">
+      <div class="wrap newsletter-box reveal">
+        <p class="eyebrow">The list</p>
+        <h2>Letters from the atelier</h2>
+        <p class="muted">New arrivals, private appointments, and the occasional note on cloth. No noise. Your address stays on this device.</p>
+        <form class="inline-form" id="newsletterForm" novalidate>
+          <label class="sr-only" for="newsletterEmail">Email address</label>
+          <input id="newsletterEmail" name="email" type="email" placeholder="Email address" autocomplete="email" required>
+          <button class="btn btn-solid" type="submit">Join</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="logo-mark">AUREL</p>
+          <p class="footer-brand">Clothing, considered. Tailoring and everyday pieces cut from cloth worth keeping.</p>
+        </div>
+        <div>
+          <h2>Shop</h2>
+          <a href="shop.html">All clothing</a>
+          <a href="shop.html?gender=Men">Men</a>
+          <a href="shop.html?gender=Women">Women</a>
+          <a href="shop.html?collection=new">New arrivals</a>
+          <a href="shop.html?collection=featured">Collections</a>
+        </div>
+        <div>
+          <h2>Client care</h2>
+          <button type="button" class="linkish js-size-guide">Size guide</button>
+          <a href="cart.html">Cart</a>
+          <a href="wishlist.html">Wishlist</a>
+          <a href="checkout.html">Checkout</a>
+          <a href="index.html#newsletter">Contact</a>
+        </div>
+        <div>
+          <h2>The house</h2>
+          <a href="index.html#story">Our story</a>
+          <a href="index.html#collections">Collections</a>
+          <a href="index.html#testimonials">Testimonials</a>
+        </div>
+      </div>
+      <div class="footer-base">
+        <p>© 2026 AUREL Atelier</p>
+        <p>Demo storefront · no payment is taken</p>
+      </div>
+    </div>
+  </footer>
+  <div id="portal"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="data/catalog.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

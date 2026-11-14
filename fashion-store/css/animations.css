@@ -1,0 +1,125 @@
+/* Entrance, reveal, and motion. Component transitions live with their styles. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+body {
+  animation: pageIn 0.55s ease;
+}
+
+.rise {
+  animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero-copy .rise:nth-child(1) { animation-delay: 0.08s; }
+.hero-copy .rise:nth-child(2) { animation-delay: 0.2s; }
+.hero-copy .rise:nth-child(3) { animation-delay: 0.34s; }
+.hero-copy .rise:nth-child(4) { animation-delay: 0.48s; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.collection-grid .reveal:nth-child(2) { transition-delay: 0.1s; }
+.collection-grid .reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.quotes .reveal:nth-child(2) { transition-delay: 0.08s; }
+.quotes .reveal:nth-child(3) { transition-delay: 0.16s; }
+
+.skeleton {
+  background-color: #e4ddd3;
+  background-image: linear-gradient(90deg, #e4ddd3 25%, #f6f2eb 37%, #e4ddd3 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.35s ease infinite;
+}
+
+.wish-btn.is-active {
+  animation: pop 0.35s ease;
+}
+
+.scroll-hint span {
+  animation: scrollPulse 1.8s ease infinite;
+  transform-origin: top center;
+}
+
+body.menu-open .mobile-menu a {
+  animation: menuIn 0.5s ease both;
+}
+
+body.menu-open .mobile-menu a:nth-child(1) { animation-delay: 0.04s; }
+body.menu-open .mobile-menu a:nth-child(2) { animation-delay: 0.08s; }
+body.menu-open .mobile-menu a:nth-child(3) { animation-delay: 0.12s; }
+body.menu-open .mobile-menu a:nth-child(4) { animation-delay: 0.16s; }
+body.menu-open .mobile-menu a:nth-child(5) { animation-delay: 0.2s; }
+body.menu-open .mobile-menu a:nth-child(6) { animation-delay: 0.24s; }
+
+.gallery-main img {
+  transition: opacity 0.35s ease, transform 0.7s ease;
+}
+
+.gallery-main img.is-fading {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shop the AUREL edit — blazers, dresses, denim, shirting, and outerwear.">
+  <meta name="theme-color" content="#171614">
+  <meta name="robots" content="noindex">
+  <title>Shop — AUREL</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body data-page="shop">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <noscript><p class="noscript">AUREL needs JavaScript to load the collection, cart, and wishlist.</p></noscript>
+  <header class="site-header" id="siteHeader">
+    <div class="announce"><p>Free shipping over ₹5,000 · 14-day returns</p></div>
+    <div class="nav-bar">
+      <div class="nav-bar-inner wrap">
+        <div class="nav-left">
+          <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+          <a class="logo" href="index.html" aria-label="AUREL home"><span class="logo-mark">AUREL</span><span class="logo-sub">Atelier</span></a>
+        </div>
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="index.html" data-nav="home">Home</a>
+          <a href="shop.html" data-nav="shop">Shop</a>
+          <a href="shop.html?gender=Men" data-nav="men">Men</a>
+          <a href="shop.html?gender=Women" data-nav="women">Women</a>
+          <a href="shop.html?collection=new" data-nav="new">New Arrivals</a>
+          <a href="shop.html?collection=featured" data-nav="collections">Collections</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="icon-btn" id="searchOpen" type="button" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button>
+          <a class="icon-btn" href="wishlist.html" aria-label="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19s-7-4.4-7-8.5C5 8 6.8 6.5 8.8 6.5c1.2 0 2.2.6 3.2 1.8 1-1.2 2-1.8 3.2-1.8 2 0 3.8 1.5 3.8 4C19 14.6 12 19 12 19z"/></svg><span class="count" id="wishCount" hidden>0</span></a>
+          <button class="icon-btn" id="cartOpen" type="button" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6.5 8h11l-1 12h-9l-1-12z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg><span class="count" id="cartCount" hidden>0</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <nav aria-label="Mobile">
+        <a href="index.html" data-nav="home">Home</a>
+        <a href="shop.html" data-nav="shop">Shop</a>
+        <a href="shop.html?gender=Men" data-nav="men">Men</a>
+        <a href="shop.html?gender=Women" data-nav="women">Women</a>
+        <a href="shop.html?collection=new" data-nav="new">New Arrivals</a>
+        <a href="shop.html?collection=featured" data-nav="collections">Collections</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="page">
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">The edit</p>
+        <h1 id="shopTitle">Shop</h1>
+        <p class="lede" id="shopIntro">Tailoring, dresses, denim, and knitwear — the full AUREL edit.</p>
+      </header>
+      <div class="shop-layout">
+        <aside class="filters" id="filters" aria-label="Filters">
+          <div class="filters-head">
+            <h2>Filters</h2>
+            <button type="button" class="linkish" id="clearFilters">Clear</button>
+            <button type="button" class="btn btn-ghost filters-close" id="closeFilters">Close</button>
+          </div>
+          <div class="filter-group"><h3>Gender</h3><div id="filterGender"></div></div>
+          <div class="filter-group"><h3>Category</h3><div id="filterCategory"></div></div>
+          <div class="filter-group"><h3>Size</h3><div id="filterSize" class="size-picks"></div></div>
+          <div class="filter-group"><h3>Color</h3><div id="filterColor" class="color-picks"></div></div>
+          <div class="filter-group">
+            <h3>Price</h3>
+            <div class="price-fields">
+              <input type="number" id="priceMinInput" min="0" max="25000" step="100" inputmode="numeric" placeholder="Min" aria-label="Minimum price">
+              <input type="number" id="priceMaxInput" min="0" max="25000" step="100" inputmode="numeric" placeholder="Max" aria-label="Maximum price">
+            </div>
+            <div class="price-sliders">
+              <input type="range" id="priceMin" min="0" max="25000" step="100" value="0" aria-label="Minimum price">
+              <input type="range" id="priceMax" min="0" max="25000" step="100" value="25000" aria-label="Maximum price">
+            </div>
+            <p class="fine" id="priceReadout" style="margin-top:8px"></p>
+          </div>
+        </aside>
+        <div class="shop-results">
+          <div class="shop-toolbar">
+            <button class="btn btn-ghost" type="button" id="openFilters">Filters</button>
+            <p class="product-count" id="productCount" aria-live="polite">Loading pieces</p>
+            <label class="shop-search">
+              <span class="sr-only">Search products</span>
+              <input type="search" id="shopSearch" placeholder="Search pieces" autocomplete="off">
+            </label>
+            <label class="sort">Sort
+              <select id="sortSelect" aria-label="Sort products">
+                <option value="featured">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="price-asc">Price low to high</option>
+                <option value="price-desc">Price high to low</option>
+              </select>
+            </label>
+          </div>
+          <div class="chips" id="activeFilters"></div>
+          <div class="product-grid" id="productGrid" aria-busy="true"></div>
+          <div class="empty-state" id="shopEmpty" hidden>
+            <h2>No pieces found</h2>
+            <p>Try clearing a filter, or search for something broader.</p>
+            <button class="btn btn-solid" type="button" id="emptyClear">Clear filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <p class="logo-mark">AUREL</p>
+          <p class="footer-brand">Clothing, considered. Tailoring and everyday pieces cut from cloth worth keeping.</p>
+        </div>
+        <div>
+          <h2>Shop</h2>
+          <a href="shop.html">All clothing</a>
+          <a href="shop.html?gender=Men">Men</a>
+          <a href="shop.html?gender=Women">Women</a>
+          <a href="shop.html?collection=new">New arrivals</a>
+          <a href="shop.html?collection=featured">Collections</a>
+        </div>
+        <div>
+          <h2>Client care</h2>
+          <button type="button" class="linkish js-size-guide">Size guide</button>
+          <a href="cart.html">Cart</a>
+          <a href="wishlist.html">Wishlist</a>
+          <a href="checkout.html">Checkout</a>
+          <a href="index.html#newsletter">Contact</a>
+        </div>
+        <div>
+          <h2>The house</h2>
+          <a href="index.html#story">Our story</a>
+          <a href="index.html#collections">Collections</a>
+          <a href="index.html#testimonials">Testimonials</a>
+        </div>
+      </div>
+      <div class="footer-base">
+        <p>© 2026 AUREL Atelier</p>
+        <p>Demo storefront · no payment is taken</p>
+      </div>
+    </div>
+  </footer>
+  <div id="portal"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="data/catalog.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
