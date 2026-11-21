@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AUREL Studio. Update products, prices, and stock for the atelier.">
+  <meta name="robots" content="noindex">
+  <title>Studio — AUREL</title>
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body data-page="studio" class="studio-locked">
+  <a class="skip-link" href="#loginForm">Skip to sign in</a>
+  <section class="login-screen" id="loginScreen">
+    <form class="login-card" id="loginForm" novalidate>
+      <p class="logo-mark">AUREL</p>
+      <p class="logo-sub">Studio</p>
+      <h1>Sign in</h1>
+      <p class="muted">The collection desk is for the house.</p>
+      <label class="field">
+        <span>Username</span>
+        <input name="username" type="text" autocomplete="username" required>
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <label class="login-remember">
+        <input name="remember" type="checkbox">
+        Keep me signed in on this device
+      </label>
+      <p class="field-error" id="loginError" hidden></p>
+      <button class="btn btn-solid btn-full" type="submit" id="loginSubmit">Sign in</button>
+      <a class="text-link" href="index.html">Back to the store</a>
+    </form>
+  </section>
+  <header class="studio-bar" id="studioBar" hidden>
+    <a class="studio-brand" href="index.html" aria-label="AUREL home">
+      <span class="logo-mark">AUREL</span>
+      <span class="logo-sub">Studio</span>
+    </a>
+    <nav class="studio-nav" aria-label="Studio">
+      <button type="button" data-view="overview" class="is-active">Overview</button>
+      <button type="button" data-view="products">Products</button>
+      <button type="button" data-view="stock">Stock <span class="nav-count" id="lowBadge" hidden>0</span></button>
+      <button type="button" data-view="orders">Orders</button>
+    </nav>
+    <a class="btn btn-ghost studio-store" href="index.html">View store</a>
+    <button class="btn btn-ghost" type="button" id="signOut">Sign out</button>
+  </header>
+
+  <main id="studioMain" class="studio-main wrap" hidden>
+    <div class="stat-grid" id="statGrid"></div>
+    <section id="view-overview" data-panel="overview">
+      <p class="eyebrow">Atelier</p>
+      <h1>Studio</h1>
+      <p class="lede studio-note">Update pieces, prices, and how many are on hand. The shop on this device uses what you save here. Five or fewer is low stock.</p>
+      <div class="studio-split">
+        <section class="studio-card">
+          <h2>Needs attention</h2>
+          <div id="attentionList"></div>
+        </section>
+        <section class="studio-card">
+          <h2>Letters</h2>
+          <div id="letterList"></div>
+        </section>
+      </div>
+      <button class="linkish" type="button" id="resetCatalog">Restore the original collection</button>
+    </section>
+
+    <section id="view-products" data-panel="products" hidden>
+      <div class="studio-toolbar">
+        <div>
+          <p class="eyebrow">Collection</p>
+          <h1>Products</h1>
+        </div>
+        <button class="btn btn-solid" type="button" id="addProduct">Add a piece</button>
+      </div>
+      <div class="studio-filters">
+        <label class="field grow">
+          <span>Search</span>
+          <input id="productSearch" type="search" placeholder="Name, cloth, or category">
+        </label>
+        <label class="field">
+          <span>Showing</span>
+          <select id="productFilter">
+            <option value="all">All pieces</option>
+            <option value="in">In stock</option>
+            <option value="low">Low stock</option>
+            <option value="out">Sold out</option>
+          </select>
+        </label>
+      </div>
+      <p class="fine" id="productCount"></p>
+      <div class="table-scroll">
+        <table class="studio-table">
+          <thead>
+            <tr>
+              <th>Piece</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="productRows"></tbody>
+        </table>
+      </div>
+      <p class="empty-state" id="productEmpty" hidden>No pieces match this search.</p>
+    </section>
+
+    <section id="view-stock" data-panel="stock" hidden>
+      <p class="eyebrow">On hand</p>
+      <h1>Stock</h1>
+      <p class="lede studio-note">Set a quantity and the shop updates. Five or fewer shows as low stock. Zero marks the piece sold out.</p>
+      <div class="table-scroll">
+        <table class="studio-table">
+          <thead>
+            <tr>
+              <th>Piece</th>
+              <th>Status</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody id="stockRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-orders" data-panel="orders" hidden>
+      <p class="eyebrow">Client care</p>
+      <h1>Orders</h1>
+      <p class="lede studio-note">Orders placed in this browser. Placing an order reduces the stock of each piece.</p>
+      <div id="orderList"></div>
+    </section>
+  </main>
+
+  <div class="editor-layer" id="editorLayer" hidden>
+    <form class="editor-card" id="editorForm">
+      <div class="editor-head">
+        <div>
+          <p class="eyebrow" id="editorEyebrow">Piece</p>
+          <h2 id="editorTitle">Edit piece</h2>
+        </div>
+        <button class="modal-close" type="button" data-close-editor aria-label="Close">×</button>
+      </div>
+      <div class="form-grid two">
+        <label class="field">
+          <span>Name</span>
+          <input name="name" required maxlength="80">
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <select name="category">
+            <option>Women</option>
+            <option>Men</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Type</span>
+          <input name="subcategory" list="typeList" required maxlength="40">
+          <datalist id="typeList">
+            <option value="Blazers"></option>
+            <option value="Jackets"></option>
+            <option value="Shirts"></option>
+            <option value="T-Shirts"></option>
+            <option value="Dresses"></option>
+            <option value="Jeans"></option>
+            <option value="Trousers"></option>
+            <option value="Hoodies"></option>
+            <option value="Casual"></option>
+          </datalist>
+        </label>
+        <label class="field">
+          <span>Stock</span>
+          <input name="stock" type="number" min="0" max="999" required>
+        </label>
+        <label class="field">
+          <span>Price (₹)</span>
+          <input name="price" type="number" min="1" step="1" required>
+        </label>
+        <label class="field">
+          <span>Original price (₹)</span>
+          <input name="originalPrice" type="number" min="1" step="1" required>
+        </label>
+        <label class="field">
+          <span>Rating</span>
+          <input name="rating" type="number" min="0" max="5" step="0.1" required>
+        </label>
+        <label class="field">
+          <span>Reviews</span>
+          <input name="reviews" type="number" min="0" step="1" required>
+        </label>
+      </div>
+      <label class="field">
+        <span>Colours, separated by commas</span>
+        <input name="colors" required placeholder="Black, Navy, Ivory">
+      </label>
+      <label class="field">
+        <span>Sizes, separated by commas</span>
+        <input name="sizes" required placeholder="XS, S, M, L">
+      </label>
+      <div class="field">
+        <span>Photos</span>
+        <p class="fine">Upload up to 3. The first is the main photo. The second appears when a card is hovered.</p>
+        <label class="btn btn-ghost upload-btn">
+          Upload photos
+          <input id="imageFiles" type="file" accept="image/*" multiple>
+        </label>
+        <div class="upload-previews" id="imagePreviews"></div>
+        <div class="upload-link">
+          <input id="imageLink" type="url" placeholder="Or paste an image link" autocomplete="off">
+          <button class="btn btn-ghost" type="button" id="addImageLink">Add link</button>
+        </div>
+      </div>
+      <label class="field">
+        <span>Description</span>
+        <textarea name="description" rows="4" required maxlength="600"></textarea>
+      </label>
+      <div class="editor-checks">
+        <label><input name="featured" type="checkbox"> Featured</label>
+        <label><input name="newArrival" type="checkbox"> New arrival</label>
+      </div>
+      <p class="field-error" id="editorError" hidden></p>
+      <div class="editor-actions">
+        <button class="btn btn-solid" type="submit">Save piece</button>
+        <button class="btn btn-ghost" type="button" id="deleteProduct" hidden>Remove</button>
+      </div>
+    </form>
+  </div>
+  <div id="studioToast" class="toasts" aria-live="polite"></div>
+  <script src="data/catalog.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

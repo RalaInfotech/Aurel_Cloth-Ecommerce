@@ -210,6 +210,16 @@
   .logo-mark { font-size: 32px; }
 }
 
+@media (min-width: 768px) {
+  .stat-grid { grid-template-columns: repeat(4, 1fr); }
+  .studio-split { grid-template-columns: 1.2fr 0.8fr; }
+}
+
+@media (max-width: 720px) {
+  .studio-bar { flex-wrap: wrap; }
+  .studio-store { margin-left: auto; }
+}
+
 @media (max-width: 420px) {
   .icon-btn { width: 34px; height: 34px; }
   .nav-toggle { width: 36px; }

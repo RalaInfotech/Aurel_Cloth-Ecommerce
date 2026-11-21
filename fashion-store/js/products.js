@@ -72,17 +72,38 @@
     }
   };
 
+  function normalizeProduct(product) {
+    const copy = Object.assign({}, product);
+    const stock = Number.isFinite(Number(copy.stock))
+      ? Math.max(0, Math.round(Number(copy.stock)))
+      : (copy.inStock === false ? 0 : 8 + (Number(copy.id) % 17));
+    copy.stock = stock;
+    copy.inStock = stock > 0;
+    return copy;
+  }
+
+  function normalizeList(list) {
+    return list.map(normalizeProduct);
+  }
+
   function adopt(data) {
     if (!Array.isArray(data) || !data.length) throw new Error('Product data is not a list.');
-    cache = data;
+    cache = normalizeList(data);
     return cache;
   }
 
-  /* data.json is the catalog. Opening the HTML files directly blocks fetch,
-     so catalog.js carries the same list and is used whenever the request fails. */
+  function savedCatalog() {
+    const saved = storage.get('aurel_catalog', null);
+    return Array.isArray(saved) && saved.length ? saved : null;
+  }
+
+  /* Studio edits live in this browser. Otherwise data.json is read, and
+     catalog.js is the same list for when the page is opened as a file. */
   function load() {
     if (cache) return Promise.resolve(cache);
     if (pending) return pending;
+    const saved = savedCatalog();
+    if (saved) return Promise.resolve(adopt(saved));
     const embedded = window.AUREL_CATALOG;
     if (location.protocol === 'file:' && Array.isArray(embedded) && embedded.length) {
       return Promise.resolve(adopt(embedded));
@@ -99,6 +120,75 @@
         throw new Error('Could not load the collection.');
       });
     return pending;
+  }
+
+  function commit(list) {
+    const next = normalizeList(list);
+    if (!next.length) throw new Error('Keep at least one piece in the collection.');
+    storage.set('aurel_catalog', next);
+    cache = next;
+    document.dispatchEvent(new CustomEvent('aurel:catalog'));
+    return next;
+  }
+
+  function resetCatalog() {
+    storage.remove('aurel_catalog');
+    cache = null;
+    pending = null;
+    return load();
+  }
+
+  function reload() {
+    cache = null;
+    pending = null;
+    return load();
+  }
+
+  function replaceProduct(product) {
+    const list = (cache || []).slice();
+    const index = list.findIndex((item) => item.id === Number(product.id));
+    if (index === -1) list.unshift(product);
+    else list[index] = product;
+    return commit(list);
+  }
+
+  function removeProduct(id) {
+    return commit((cache || []).filter((item) => item.id !== Number(id)));
+  }
+
+  function takeStock(lines) {
+    const list = (cache || []).map((item) => Object.assign({}, item));
+    (lines || []).forEach((line) => {
+      const product = list.find((item) => item.id === Number(line.id));
+      if (!product) return;
+      product.stock = Math.max(0, Number(product.stock) - Number(line.qty || 0));
+    });
+    return commit(list);
+  }
+
+  function recordOrder(order) {
+    const current = storage.get('aurel_orders', []);
+    const next = [order].concat(Array.isArray(current) ? current : []).slice(0, 40);
+    storage.set('aurel_orders', next);
+    return next;
+  }
+
+  function orders() {
+    const list = storage.get('aurel_orders', []);
+    return Array.isArray(list) ? list : [];
+  }
+
+  function remaining(id) {
+    const product = getById(id);
+    if (!product) return 0;
+    const held = Aurel.Cart
+      ? Aurel.Cart.get().filter((line) => line.id === Number(id)).reduce((sum, line) => sum + line.qty, 0)
+      : 0;
+    return Math.max(0, Number(product.stock) - held);
+  }
+
+  function nextId() {
+    return (cache || []).reduce((max, item) => Math.max(max, Number(item.id) || 0), 0) + 1;
   }
 
   function formatPrice(amount) {
@@ -216,6 +306,17 @@
     skeletonCards,
     related,
     colorHex: (name) => COLORS[name] || '#c8c2b8',
-    heartIcon: HEART
+    heartIcon: HEART,
+    commit,
+    resetCatalog,
+    reload,
+    replaceProduct,
+    removeProduct,
+    takeStock,
+    recordOrder,
+    orders,
+    remaining,
+    nextId,
+    usingStudio: () => !!savedCatalog()
   };
 })(window.Aurel = window.Aurel || {});

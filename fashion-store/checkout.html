@@ -86,23 +86,17 @@
           <div class="field" id="paymentField">
             <span>Method</span>
             <div class="pay-options">
-              <label class="pay-option"><input type="radio" name="payment" value="card" checked> <span>Card</span></label>
-              <label class="pay-option"><input type="radio" name="payment" value="upi"> <span>UPI</span></label>
+              <label class="pay-option"><input type="radio" name="payment" value="upi" checked> <span>UPI</span></label>
               <label class="pay-option"><input type="radio" name="payment" value="cod"> <span>Cash on delivery</span></label>
             </div>
           </div>
-          <div class="pay-panel" data-pay-panel="card">
-            <label class="field"><span>Name on card</span><input name="cardName" autocomplete="cc-name"></label>
-            <label class="field"><span>Card number</span><input name="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242" maxlength="19"></label>
-            <div class="form-grid two">
-              <label class="field"><span>Expiry</span><input name="expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5"></label>
-              <label class="field"><span>CVV</span><input name="cvv" inputmode="numeric" autocomplete="cc-csc" maxlength="3"></label>
+          <div class="pay-panel" data-pay-panel="upi">
+            <div class="upi-scan">
+              <p class="eyebrow">Scan to pay</p>
+              <div id="upiQr" class="upi-qr" role="img" aria-label="UPI scanner"></div>
+              <p class="upi-amount" id="upiAmount"></p>
+              <p class="fine">Open any UPI app and scan this code. This is a demonstration — no payment is collected.</p>
             </div>
-            <p class="fine">Demo only. Use 4242 4242 4242 4242, any future expiry, and any 3-digit CVV. The number is not stored.</p>
-          </div>
-          <div class="pay-panel" data-pay-panel="upi" hidden>
-            <label class="field"><span>UPI ID</span><input name="upi" placeholder="name@bank" autocomplete="off"></label>
-            <p class="fine">No UPI request is sent. This only checks the format.</p>
           </div>
           <div class="pay-panel" data-pay-panel="cod" hidden>
             <p class="fine">Pay when the parcel arrives. In this demo, no courier is booked and nothing is collected.</p>
@@ -153,6 +147,7 @@
           <a href="index.html#story">Our story</a>
           <a href="index.html#collections">Collections</a>
           <a href="index.html#testimonials">Testimonials</a>
+          <a href="admin.html">Studio</a>
         </div>
       </div>
       <div class="footer-base">
@@ -168,6 +163,7 @@
   <script src="js/cart.js"></script>
   <script src="js/wishlist.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/qr.js"></script>
   <script src="js/checkout.js"></script>
 </body>
 </html>

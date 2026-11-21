@@ -33,6 +33,7 @@
       </article>`).join('');
     summary.innerHTML = `${items}<div style="margin-top:12px">${totalsBlock(totals)}</div>`;
     if (place && !locked) place.textContent = `Place order · ${Aurel.Products.formatPrice(totals.total)}`;
+    paintScanner();
   }
 
   function totalsBlock(totals) {
@@ -58,28 +59,19 @@
     return `AUR-${stamp}-${salt}`;
   }
 
-  function luhn(num) {
-    let sum = 0;
-    let alternate = false;
-    for (let i = num.length - 1; i >= 0; i -= 1) {
-      let digit = parseInt(num[i], 10);
-      if (alternate) {
-        digit *= 2;
-        if (digit > 9) digit -= 9;
-      }
-      sum += digit;
-      alternate = !alternate;
+  function paintScanner() {
+    const host = document.getElementById('upiQr');
+    const amount = document.getElementById('upiAmount');
+    if (!host || !Aurel.qrSvg) return;
+    const total = Aurel.Cart.totals().total;
+    const rupees = Number(total).toFixed(2);
+    if (amount) amount.textContent = Aurel.Products.formatPrice(total);
+    const payload = `upi://pay?pa=aurel.demo@upi&pn=AUREL&am=${rupees}&cu=INR&tn=AUREL`;
+    try {
+      host.innerHTML = Aurel.qrSvg(payload);
+    } catch (err) {
+      host.textContent = 'The scanner could not be drawn.';
     }
-    return sum % 10 === 0;
-  }
-
-  function expiryOk(value) {
-    const match = /^(\d{2})\/(\d{2})$/.exec(value);
-    if (!match) return false;
-    const month = Number(match[1]);
-    const year = 2000 + Number(match[2]);
-    if (month < 1 || month > 12) return false;
-    return new Date(year, month, 1) > new Date();
   }
 
   function clearErrors() {
@@ -115,17 +107,7 @@
     if ((data.city || '').trim().length < 2) errors.city = 'Enter your city.';
     if ((data.state || '').trim().length < 2) errors.state = 'Enter your state.';
     if (!/^\d{6}$/.test(data.postal || '')) errors.postal = 'Enter a 6-digit postal code.';
-    if (!data.payment) errors.payment = 'Choose a payment method.';
-    if (data.payment === 'card') {
-      const digits = (data.cardNumber || '').replace(/\s+/g, '');
-      if (!/^\d{16}$/.test(digits) || !luhn(digits)) errors.cardNumber = 'Enter a valid card number. Use 4242 4242 4242 4242 to try the demo.';
-      if ((data.cardName || '').trim().length < 2) errors.cardName = 'Enter the name on the card.';
-      if (!expiryOk(data.expiry || '')) errors.expiry = 'Enter a future expiry as MM/YY.';
-      if (!/^\d{3}$/.test(data.cvv || '')) errors.cvv = 'Enter the 3-digit CVV.';
-    }
-    if (data.payment === 'upi' && !/^[\w.\-]{2,}@[A-Za-z]{2,}$/.test(data.upi || '')) {
-      errors.upi = 'Enter a valid UPI ID, such as name@bank.';
-    }
+    if (data.payment !== 'upi' && data.payment !== 'cod') errors.payment = 'Choose a payment method.';
     const names = Object.keys(errors);
     names.forEach((name) => showError(name, errors[name]));
     if (names.length) {
@@ -139,7 +121,7 @@
 
   function syncPayment() {
     const selected = form.querySelector('input[name="payment"]:checked');
-    const method = selected ? selected.value : 'card';
+    const method = selected ? selected.value : 'upi';
     document.querySelectorAll('[data-pay-panel]').forEach((panel) => {
       panel.hidden = panel.dataset.payPanel !== method;
     });
@@ -178,19 +160,6 @@
     form.addEventListener('change', (event) => {
       if (event.target.name === 'payment') syncPayment();
     });
-    const card = form.elements.cardNumber;
-    card.addEventListener('input', () => {
-      const digits = card.value.replace(/\D/g, '').slice(0, 16);
-      card.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
-    });
-    const expiry = form.elements.expiry;
-    expiry.addEventListener('input', () => {
-      const digits = expiry.value.replace(/\D/g, '').slice(0, 4);
-      expiry.value = digits.length >= 3 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
-    });
-    form.elements.cvv.addEventListener('input', () => {
-      form.elements.cvv.value = form.elements.cvv.value.replace(/\D/g, '').slice(0, 3);
-    });
     form.elements.phone.addEventListener('input', () => {
       form.elements.phone.value = form.elements.phone.value.replace(/\D/g, '').slice(0, 10);
     });
@@ -208,15 +177,16 @@
       const data = validate();
       if (!data) return;
       const totals = Aurel.Cart.totals();
-      const methods = { card: 'Card', upi: 'UPI', cod: 'Cash on delivery' };
+      const methods = { upi: 'UPI', cod: 'Cash on delivery' };
       const order = {
         id: orderId(),
         email: data.email.trim(),
         name: data.firstName.trim(),
         phone: data.phone.trim(),
         address: [data.address, data.apartment, data.city, data.state, data.postal].map((part) => (part || '').trim()).filter(Boolean).join(', '),
-        method: methods[data.payment] || 'Card',
+        method: methods[data.payment] || 'UPI',
         items: totals.lines.map((line) => ({
+          id: line.id,
           name: line.product.name,
           qty: line.qty,
           size: line.size,
@@ -231,6 +201,8 @@
       place.textContent = 'Placing order…';
       window.setTimeout(() => {
         sessionStorage.setItem('aurel_last_order', JSON.stringify(order));
+        Aurel.Products.takeStock(totals.lines);
+        Aurel.Products.recordOrder(order);
         renderConfirmation(order);
         Aurel.ui.toast('Order placed successfully');
         Aurel.Cart.clear();

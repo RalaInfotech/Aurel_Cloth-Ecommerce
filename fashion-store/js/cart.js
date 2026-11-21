@@ -48,13 +48,15 @@
       if (Aurel.ui) Aurel.ui.toast('This piece is no longer available', 'error');
       return null;
     }
-    if (!product.inStock) {
-      if (Aurel.ui) Aurel.ui.toast('This piece is sold out', 'error');
+    const room = Aurel.Products.remaining ? Aurel.Products.remaining(product.id) : product.stock;
+    if (!product.inStock || room < 1) {
+      if (Aurel.ui && !opts.silent) Aurel.ui.toast('This piece is sold out', 'error');
       return null;
     }
     const size = item.size || product.sizes[0];
     const color = item.color || product.colors[0];
-    const qty = clampQty(item.qty || 1);
+    const requested = clampQty(item.qty || 1);
+    const qty = Math.min(requested, room);
     const lines = get();
     const existing = findLine(lines, product.id, size, color);
     let updated = false;
@@ -73,7 +75,8 @@
     save(lines);
     if (!opts.silent && Aurel.ui) {
       const lead = updated ? 'Quantity updated in cart' : 'Added to cart';
-      Aurel.ui.toast(`${lead} — ${product.name}, size ${size}, ${color}`);
+      const short = qty < requested ? ` Only ${product.stock} in stock.` : '';
+      Aurel.ui.toast(`${lead} — ${product.name}, size ${size}, ${color}.${short}`);
     }
     return { updated, size, color };
   }
@@ -83,6 +86,10 @@
     const parsed = parseKey(key);
     const line = findLine(lines, parsed.id, parsed.size, parsed.color);
     if (!line) return;
+    if (direction > 0 && Aurel.Products.remaining && Aurel.Products.remaining(line.id) < 1) {
+      if (Aurel.ui) Aurel.ui.toast('No more of this piece in stock', 'error');
+      return;
+    }
     if (line.qty >= 8 && direction > 0) {
       if (Aurel.ui) Aurel.ui.toast('Maximum quantity is 8', 'error');
       return;

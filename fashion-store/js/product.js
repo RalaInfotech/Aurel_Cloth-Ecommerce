@@ -91,7 +91,7 @@
             <button class="linkish js-size-guide" type="button">Size guide</button>
           </div>
           <div class="size-options" id="sizeOptions">${sizes}</div>
-          <p class="fine" style="margin-top:8px">Model is 178 cm and wears size M. ${product.inStock ? 'In stock and ready to ship.' : 'Sold out.'}</p>
+          <p class="fine" style="margin-top:8px">Model is 178 cm and wears size M. ${product.inStock ? `${product.stock} in the atelier, ready to ship.` : 'Sold out.'}</p>
           <div class="option-label"><span>Quantity</span></div>
           <div class="qty">
             <button type="button" id="qtyMinus" aria-label="Decrease quantity">−</button>
@@ -196,7 +196,12 @@
       return;
     }
     if (event.target.closest('#qtyPlus')) {
-      qty = Math.min(8, qty + 1);
+      const room = Aurel.Products.remaining(product.id);
+      if (qty >= room) {
+        Aurel.ui.toast(room > 0 ? `Only ${room} left in stock` : 'This piece is sold out', 'error');
+        return;
+      }
+      qty = Math.min(8, room, qty + 1);
       syncQty();
       return;
     }
